@@ -1,0 +1,62 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>three.js test</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+		}
+		canvas {
+			display: block;
+		}
+	</style>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.js"></script>	
+	<script>
+		// scene setup
+		// scene, camera, renderer
+		const scene = new THREE.Scene();
+		// camera para: FOV, aspect ratio, near, far
+		var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+		// can be WebGLRenderer, for older browsers, can use other renderers
+		var renderer = new THREE.WebGLRenderer();
+		// set the size of the rendering area
+		// optional 3rd para updateStyle, default = true, keep resolution
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		// add DOM element to HTML
+		document.body.appendChild(renderer.domElement);
+
+		// object setup
+		// box geometry
+		var geometry = new THREE.BoxGeometry();
+		// material, here only set hex colors
+		var material = new THREE.MeshBasicMaterial(
+		{
+			color: 0x00ff00
+		});
+		var cube = new THREE.Mesh(
+			geometry, material
+		);
+		// object add to (0,0,0)
+		scene.add(cube);
+		// camera and objective are placed together automatically
+		// therefore, need to move a little bit
+		camera.position.z = 5;
+
+		// use render loop or animate loop to actually render object
+		// requestAnimationFrame is one way, it pauses when switching browser tabs
+		function animate() {
+			// 60 fps
+			requestAnimationFrame(animate);
+
+			cube.rotation.x += 0.01;
+			cube.rotation.y += 0.01;
+
+			// render the current scene with the camera
+			renderer.render(scene, camera);
+		}
+		animate();
+	</script>
+</body>
+</html>
